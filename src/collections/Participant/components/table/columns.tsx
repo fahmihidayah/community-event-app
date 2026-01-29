@@ -81,7 +81,7 @@ export const participantColumns: ColumnDef<Participant>[] = [
       return (
         <Button
           onClick={async () => {
-            const targetUrl = `${window.location.origin}/dashboard/participant/${participant.id}?status=confirm`
+            const targetUrl = `${window.location.origin}/participant/${participant.id}/qr`
             if (navigator.share) {
               await navigator.share({
                 title: 'Participant Link',
