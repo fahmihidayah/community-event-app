@@ -3,6 +3,89 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
+export const uploadCsv = async (formData: FormData, eventId: string) => {
+  try {
+    const file = formData.get('file') as File
+    if (!file) {
+      return {
+        success: false,
+        message: 'No file provided',
+        imported: 0,
+        failed: 0,
+      }
+    }
+
+    // Read CSV file
+    const text = await file.text()
+    const lines = text.split('\n')
+    const headers = lines[0].split(',')
+
+    // Find column indexes
+    const emailIndex = headers.findIndex((h) => h.includes('Email address'))
+    const nameIndex = headers.findIndex((h) => h.includes('Nama Lengkap'))
+    const phoneIndex = headers.findIndex((h) => h.includes('Nomor Whatsapp'))
+    const ageIndex = headers.findIndex((h) => h.includes('Usia'))
+    const jobIndex = headers.findIndex((h) => h.includes('Pekerjaan atau Usaha'))
+    const addressIndex = headers.findIndex((h) => h.includes('Alamat Rumah'))
+
+    const payload = await getPayload({ config })
+    let imported = 0
+    let failed = 0
+
+    // Process each row (skip header)
+    for (let i = 1; i < lines.length; i++) {
+      const line = lines[i].trim()
+      if (!line) continue
+
+      const columns = line.split(',')
+
+      const email = columns[emailIndex]?.trim()
+      const fullName = columns[nameIndex]?.trim()
+
+      if (!email || !fullName) {
+        failed++
+        continue
+      }
+
+      try {
+        await payload.create({
+          collection: 'participant',
+          data: {
+            email,
+            fullName,
+            phoneNumber: columns[phoneIndex]?.trim() || '',
+            age: parseInt(columns[ageIndex]?.trim()) || undefined,
+            job: columns[jobIndex]?.trim() || '',
+            address: columns[addressIndex]?.trim() || '',
+            event: eventId,
+            attendanceStatus: 'absent',
+            registrationDate: new Date().toISOString(),
+          },
+        })
+        imported++
+      } catch (error) {
+        console.error('Error importing participant:', error)
+        failed++
+      }
+    }
+
+    return {
+      success: true,
+      message: `Import completed: ${imported} imported, ${failed} failed`,
+      imported,
+      failed,
+    }
+  } catch (error) {
+    console.error('Error uploading CSV:', error)
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : 'Failed to upload CSV',
+      imported: 0,
+      failed: 0,
+    }
+  }
+}
+
 export const updateParticipantAttendanceStatusToPresent = async (participantId: string) => {
   try {
     const payload = await getPayload({ config })

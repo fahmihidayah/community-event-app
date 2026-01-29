@@ -4,6 +4,7 @@ import { getEventById } from '@/collections/Event/actions'
 import { getListParticipantsByEvent } from '@/collections/Participant/actions'
 import { EventSummary } from '@/collections/Event/components/detail'
 import { ParticipantTableWrapper } from '@/collections/Participant/components/table/participant-table-wrapper'
+import { ImportCsv } from '@/collections/Participant/components/import'
 import { Button } from '@/components/ui/button'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
@@ -70,6 +71,9 @@ export default async function DetailEventPage({
 
       {/* Event Summary */}
       <EventSummary event={eventResult.event as any} stats={participantsResult.stats} />
+
+      {/* Import CSV */}
+      <ImportCsv eventId={id} />
 
       {/* Participants Table */}
       <Suspense fallback={<div>Loading participants...</div>}>
