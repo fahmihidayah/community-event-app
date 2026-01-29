@@ -17,7 +17,7 @@ export function Navbar() {
           <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary text-primary-foreground">
             <Rocket className="h-4 w-4" />
           </div>
-          <span className="font-bold text-lg">Payload Starter</span>
+          <span className="font-bold text-lg">Posku</span>
         </Link>
 
         {/* Desktop Navigation */}

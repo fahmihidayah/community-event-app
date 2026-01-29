@@ -4,6 +4,12 @@ import { getDashboardStats } from '../../../../collections/Dashboard/actions'
 import { WelcomeCard } from '../../../../collections/Dashboard/components/welcome-card'
 import { DashboardStats } from '../../../../collections/Dashboard/components/dashboard-stats'
 import { UpcomingEvents } from '../../../../collections/Dashboard/components/upcoming-events'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Dashboard',
+  description: 'Dashboard Posku - Lihat ringkasan acara, peserta, dan statistik kehadiran.',
+}
 
 export default async function DashboardPage() {
   // Get current user

@@ -2,6 +2,13 @@ import { Suspense } from 'react'
 import { getListEvents } from '@/collections/Event/actions'
 import { PageHeader } from '@/components/layouts/table-list'
 import { EventTableWrapper } from '@/collections/Event/components/table/event-table-wrapper'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Daftar Acara',
+  description: 'Kelola semua acara dan kegiatan Kuttab Al Fatih.',
+}
+
 export default async function TableEventPage({
   searchParams,
 }: {

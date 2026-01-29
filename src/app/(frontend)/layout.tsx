@@ -7,8 +7,20 @@ import { Toaster } from '@/components/ui/sonner'
 import { AuthProvider } from '@/providers/AuthProvider'
 
 export const metadata = {
-  description: 'A modern web application built with Payload CMS and Next.js.',
-  title: 'Payload Starter',
+  title: {
+    default: 'Posku - Sistem Manajemen Acara Kuttab Al Fatih',
+    template: '%s | Posku Kuttab Al Fatih',
+  },
+  description:
+    'Platform digital untuk mengelola acara, peserta, dan kehadiran di Kuttab Al Fatih. Memudahkan administrasi dan meningkatkan efisiensi pengelolaan kegiatan sekolah.',
+  keywords: [
+    'Kuttab Al Fatih',
+    'manajemen acara',
+    'presensi digital',
+    'QR code',
+    'sistem informasi sekolah',
+    'posku',
+  ],
 }
 
 export default async function RootLayout(props: { children: React.ReactNode }) {

@@ -2,6 +2,12 @@ import { Suspense } from 'react'
 import { getListUsers } from '@/collections/Users/actions'
 import { PageHeader } from '@/components/layouts/table-list'
 import { UserTableWrapper } from '@/collections/Users/components/table/user-table-wrapper'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Pengguna',
+  description: 'Kelola pengguna dan akses sistem Posku.',
+}
 
 export default async function UsersPage({
   searchParams,

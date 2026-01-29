@@ -1,5 +1,11 @@
 import { RegisterForm } from '@/collections/Users/components/register'
 import Link from 'next/link'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Daftar',
+  description: 'Buat akun baru di Posku Kuttab Al Fatih untuk mulai mengelola acara sekolah.',
+}
 
 export default function RegisterPage() {
   return (

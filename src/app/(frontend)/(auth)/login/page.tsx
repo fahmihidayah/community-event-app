@@ -1,5 +1,11 @@
 import LoginForm from '@/collections/Users/components/login/login-form'
 import Link from 'next/link'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Masuk',
+  description: 'Masuk ke akun Posku Kuttab Al Fatih untuk mengelola acara dan kehadiran.',
+}
 
 export default function LoginPage() {
   return (

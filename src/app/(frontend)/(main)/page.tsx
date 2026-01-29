@@ -2,6 +2,13 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Calendar, Users, QrCode, BookOpen } from 'lucide-react'
 import Link from 'next/link'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Beranda',
+  description:
+    'Platform digital untuk mengelola acara, peserta, dan kehadiran di Kuttab Al Fatih. Sistem manajemen acara dengan fitur QR code, laporan real-time, dan import data CSV.',
+}
 
 export default function HomePage() {
   return (

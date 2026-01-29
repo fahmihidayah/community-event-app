@@ -4,6 +4,12 @@ import SettingsForm from '@/collections/Dashboard/components/settings/settings-f
 import { Button } from '@/components/ui/button'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Pengaturan',
+  description: 'Kelola informasi akun Posku Anda.',
+}
 
 export default async function SettingsPage() {
   const userResult = await getCurrentUser()

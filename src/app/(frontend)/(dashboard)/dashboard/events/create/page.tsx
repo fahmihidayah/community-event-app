@@ -1,4 +1,10 @@
 import { EventForm } from '@/collections/Event/components/form'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Buat Acara Baru',
+  description: 'Tambahkan acara baru ke kalender Kuttab Al Fatih.',
+}
 
 export default function CreateEventPage() {
   return (
