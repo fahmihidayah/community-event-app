@@ -10,7 +10,9 @@
       "Bash(npx vitest:*)",
       "Bash(pnpm test:int:*)",
       "Bash(pnpm run test:int:*)",
-      "Bash(node --version:*)"
+      "Bash(node --version:*)",
+      "Bash(test:*)",
+      "Bash(wc:*)"
     ],
     "deny": []
   }

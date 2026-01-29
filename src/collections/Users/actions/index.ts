@@ -128,3 +128,56 @@ export const forgotPassword = async (
     }
   }
 }
+
+/**
+ * Gets paginated list of users with optional search filter
+ * Returns users with pagination info
+ */
+export const getListUsers = async (options?: {
+  page?: number
+  limit?: number
+  search?: string
+  sort?: string
+}) => {
+  try {
+    const payload = await getPayload({
+      config,
+    })
+
+    const { page = 1, limit = 10, search = '', sort = '-createdAt' } = options || {}
+
+    const where: any = {}
+
+    // Add search filter if provided
+    if (search) {
+      where.or = [
+        {
+          email: {
+            contains: search,
+          },
+        },
+      ]
+    }
+
+    const result = await payload.find({
+      collection: 'users',
+      where,
+      limit,
+      page,
+      sort,
+    })
+
+    return {
+      success: true,
+      data: result,
+      error: null,
+    }
+  } catch (error) {
+    console.error('Error fetching users:', error)
+    return {
+      success: false,
+      data: null,
+      error: error instanceof Error ? error.message : 'Failed to fetch users',
+    }
+  }
+}
