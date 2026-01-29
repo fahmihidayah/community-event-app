@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir:*)",
+      "Bash(rm:*)",
+      "Bash(find:*)",
+      "Bash(cat:*)",
+      "Bash(node -e:*)",
+      "Bash(npm test:*)",
+      "Bash(npx vitest:*)",
+      "Bash(pnpm test:int:*)",
+      "Bash(pnpm run test:int:*)",
+      "Bash(node --version:*)"
+    ],
+    "deny": []
+  }
+}
