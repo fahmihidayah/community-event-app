@@ -157,10 +157,18 @@ export default function LoginForm() {
           </Form>
 
           {/* Additional Info */}
-          <div className="mt-6 text-center text-sm">
-            <Link href="/forgot-password" className="text-primary hover:underline">
-              Lupa password?
-            </Link>
+          <div className="mt-6 space-y-2 text-center text-sm">
+            <div>
+              <Link href="/forgot-password" className="text-primary hover:underline">
+                Lupa password?
+              </Link>
+            </div>
+            <div className="text-muted-foreground">
+              Belum punya akun?{' '}
+              <Link href="/register" className="text-primary hover:underline font-medium">
+                Daftar di sini
+              </Link>
+            </div>
           </div>
         </CardContent>
       </Card>
