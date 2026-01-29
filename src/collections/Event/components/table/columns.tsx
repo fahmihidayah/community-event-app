@@ -27,14 +27,22 @@ export type Event = {
 export const eventColumns: ColumnDef<Event>[] = [
   {
     accessorKey: 'name',
-    header: 'Name',
+    header: 'Nama',
     cell: ({ row }) => {
-      return <div className="font-medium">{row.getValue('name')}</div>
+      const event = row.original
+      return (
+        <Link
+          href={`/dashboard/events/${event.id}`}
+          className="font-medium hover:underline text-blue-500"
+        >
+          {row.getValue('name')}
+        </Link>
+      )
     },
   },
   {
     accessorKey: 'date',
-    header: 'Date',
+    header: 'Tanggal',
     cell: ({ row }) => {
       const date = row.getValue('date') as string
       return <div>{format(new Date(date), 'PPP p')}</div>
@@ -42,21 +50,17 @@ export const eventColumns: ColumnDef<Event>[] = [
   },
   {
     accessorKey: 'location',
-    header: 'Location',
+    header: 'Lokasi',
     cell: ({ row }) => {
       return <div>{row.getValue('location') || '-'}</div>
     },
   },
   {
     accessorKey: 'description',
-    header: 'Description',
+    header: 'Deskripsi',
     cell: ({ row }) => {
       const description = row.getValue('description') as string
-      return (
-        <div className="max-w-[300px] truncate">
-          {description || '-'}
-        </div>
-      )
+      return <div className="max-w-[300px] truncate">{description || '-'}</div>
     },
   },
   {
@@ -68,17 +72,17 @@ export const eventColumns: ColumnDef<Event>[] = [
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="size-8 p-0">
-              <span className="sr-only">Open menu</span>
+              <span className="sr-only">Buka menu</span>
               <MoreHorizontal className="size-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuLabel>Aksi</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
               <Link href={`/dashboard/events/${event.id}`}>
                 <Pencil className="mr-2 size-4" />
-                Edit
+                Ubah
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem
@@ -89,7 +93,7 @@ export const eventColumns: ColumnDef<Event>[] = [
               }}
             >
               <Trash2 className="mr-2 size-4" />
-              Delete
+              Hapus
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

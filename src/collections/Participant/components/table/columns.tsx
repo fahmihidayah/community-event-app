@@ -3,6 +3,10 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { format } from 'date-fns'
 import { Badge } from '@/components/ui/badge'
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+import { Share, Share2 } from 'lucide-react'
+import { toast } from 'sonner'
 
 export type Participant = {
   id: string
@@ -37,7 +41,15 @@ export const participantColumns: ColumnDef<Participant>[] = [
     accessorKey: 'fullName',
     header: 'Full Name',
     cell: ({ row }) => {
-      return <div className="font-medium">{row.getValue('fullName')}</div>
+      const participant = row.original
+      return (
+        <Link
+          href={`/dashboard/participants/${participant.id}`}
+          className="font-medium text-blue-600 hover:underline"
+        >
+          {row.getValue('fullName')}
+        </Link>
+      )
     },
   },
   {
@@ -55,21 +67,6 @@ export const participantColumns: ColumnDef<Participant>[] = [
     },
   },
   {
-    accessorKey: 'job',
-    header: 'Job',
-    cell: ({ row }) => {
-      return <div>{row.getValue('job') || '-'}</div>
-    },
-  },
-  {
-    accessorKey: 'age',
-    header: 'Age',
-    cell: ({ row }) => {
-      const age = row.getValue('age') as number
-      return <div>{age || '-'}</div>
-    },
-  },
-  {
     accessorKey: 'attendanceStatus',
     header: 'Status',
     cell: ({ row }) => {
@@ -78,11 +75,29 @@ export const participantColumns: ColumnDef<Participant>[] = [
     },
   },
   {
-    accessorKey: 'registrationDate',
-    header: 'Registration Date',
+    header: 'QR Link',
     cell: ({ row }) => {
-      const date = row.getValue('registrationDate') as string
-      return <div className="text-sm">{format(new Date(date), 'PPP')}</div>
+      const participant = row.original
+      return (
+        <Button
+          onClick={async () => {
+            const targetUrl = `${window.location.origin}/dashboard/participant/${participant.id}?status=confirm`
+            if (navigator.share) {
+              await navigator.share({
+                title: 'Participant Link',
+                text: 'Participant confirmation link',
+                url: targetUrl,
+              })
+            } else {
+              // Fallback: copy to clipboard
+              await navigator.clipboard.writeText(targetUrl)
+              toast.success('Link copied to clipboard')
+            }
+          }}
+        >
+          <Share2 /> Share
+        </Button>
+      )
     },
   },
 ]

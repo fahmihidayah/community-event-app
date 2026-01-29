@@ -12,7 +12,9 @@
       "Bash(pnpm run test:int:*)",
       "Bash(node --version:*)",
       "Bash(test:*)",
-      "Bash(wc:*)"
+      "Bash(wc:*)",
+      "Bash(ls:*)",
+      "Bash(npm run build:*)"
     ],
     "deny": []
   }

@@ -1,0 +1,86 @@
+'use client'
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { CheckCircle, XCircle, UserCheck } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
+
+interface ConfirmationResultProps {
+  success: boolean
+  participantName?: string
+  error?: string
+}
+
+export function ConfirmationResult({ success, participantName, error }: ConfirmationResultProps) {
+  if (success && participantName) {
+    return (
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <Card className="w-full max-w-md">
+          <CardHeader className="text-center">
+            <div className="mx-auto mb-4 flex size-16 items-center justify-center rounded-full bg-green-100">
+              <CheckCircle className="size-8 text-green-600" />
+            </div>
+            <CardTitle className="text-2xl text-green-600">Attendance Confirmed!</CardTitle>
+            <CardDescription className="text-base">
+              Attendance has been successfully recorded
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="rounded-lg bg-muted p-4">
+              <div className="flex items-center gap-3">
+                <UserCheck className="size-5 text-muted-foreground" />
+                <div>
+                  <p className="text-sm font-medium text-muted-foreground">Participant</p>
+                  <p className="text-lg font-semibold">{participantName}</p>
+                </div>
+              </div>
+            </div>
+
+            <p className="text-center text-sm text-muted-foreground">
+              The participant's attendance status has been updated to Present.
+            </p>
+
+            <Link href="/dashboard/events" className="block">
+              <Button className="w-full" variant="default">
+                Back to Events
+              </Button>
+            </Link>
+          </CardContent>
+        </Card>
+      </div>
+    )
+  }
+
+  return (
+    <div className="flex items-center justify-center min-h-[60vh]">
+      <Card className="w-full max-w-md">
+        <CardHeader className="text-center">
+          <div className="mx-auto mb-4 flex size-16 items-center justify-center rounded-full bg-red-100">
+            <XCircle className="size-8 text-red-600" />
+          </div>
+          <CardTitle className="text-2xl text-red-600">Confirmation Failed</CardTitle>
+          <CardDescription className="text-base">
+            Unable to confirm attendance
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="rounded-lg bg-red-50 p-4">
+            <p className="text-sm text-red-600 text-center">
+              {error || 'Participant not found'}
+            </p>
+          </div>
+
+          <p className="text-center text-sm text-muted-foreground">
+            The participant could not be found or the confirmation link may be invalid.
+          </p>
+
+          <Link href="/dashboard/events" className="block">
+            <Button className="w-full" variant="outline">
+              Back to Events
+            </Button>
+          </Link>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}

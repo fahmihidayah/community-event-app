@@ -25,15 +25,15 @@ export function EventTable({
   return (
     <div className="space-y-4">
       <DataTable
-        title="Events"
-        description="Manage your events"
+        title="Acara"
+        description="Kelola acara Anda"
         data={initialData}
         columns={eventColumns}
         searchable={true}
-        searchPlaceholder="Search events by name, location, or description..."
+        searchPlaceholder="Cari acara berdasarkan nama, lokasi, atau deskripsi..."
         searchValue={searchValue}
         onSearchChange={onSearchChange}
-        emptyMessage="No events found."
+        emptyMessage="Tidak ada acara ditemukan."
         manualPagination={true}
         totalPages={totalPages}
       />

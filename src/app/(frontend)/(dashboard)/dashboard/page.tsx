@@ -17,10 +17,12 @@ export default async function DashboardPage() {
   const statsResult = await getDashboardStats()
 
   if (!statsResult.success || !statsResult.stats) {
+    console.error('[DASHBOARD] Error loading dashboard data:', statsResult.error)
     return (
       <div className="space-y-6">
         <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
         <p className="text-muted-foreground">Error loading dashboard data</p>
+        <p className="text-sm text-red-500">{statsResult.error}</p>
       </div>
     )
   }

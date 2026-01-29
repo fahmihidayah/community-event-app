@@ -51,7 +51,7 @@ export default function LoginForm() {
       if (result.success && result.user && result.token) {
         console.log('[LOGIN FORM] Login successful, redirecting to dashboard')
         toast.success('Login berhasil! Mengalihkan ke dashboard...')
-        router.push('/dashboard')
+        window.location.href = '/dashboard'
       } else {
         console.log('[LOGIN FORM] Login failed:', result.error)
         toast.error(result.error || 'Gagal login. Periksa kembali email dan password Anda.')

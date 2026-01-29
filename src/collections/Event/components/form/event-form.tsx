@@ -48,14 +48,14 @@ export default function EventForm() {
       const result = await createEvent(values)
 
       if (result.success) {
-        toast.success('Event created successfully!')
+        toast.success('Acara berhasil dibuat!')
         router.push('/dashboard/events')
       } else {
-        toast.error(result.error || 'Failed to create event')
+        toast.error(result.error || 'Gagal membuat acara')
       }
     } catch (error) {
       console.error('Error creating event:', error)
-      toast.error('An error occurred while creating the event')
+      toast.error('Terjadi kesalahan saat membuat acara')
     } finally {
       setIsLoading(false)
     }
@@ -64,8 +64,8 @@ export default function EventForm() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Create New Event</CardTitle>
-        <CardDescription>Fill in the details to create a new event</CardDescription>
+        <CardTitle>Buat Acara Baru</CardTitle>
+        <CardDescription>Isi detail untuk membuat acara baru</CardDescription>
       </CardHeader>
       <CardContent className="w-full">
         <Form {...form}>
@@ -76,19 +76,19 @@ export default function EventForm() {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Event Name *</FormLabel>
+                  <FormLabel>Nama Acara *</FormLabel>
                   <FormControl>
                     <div className="relative">
                       <FileText className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
                       <Input
-                        placeholder="Enter event name"
+                        placeholder="Masukkan nama acara"
                         className="pl-10"
                         disabled={isLoading}
                         {...field}
                       />
                     </div>
                   </FormControl>
-                  <FormDescription>The name of your event</FormDescription>
+                  <FormDescription>Nama acara Anda</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -100,7 +100,7 @@ export default function EventForm() {
               name="date"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel>Event Date *</FormLabel>
+                  <FormLabel>Tanggal Acara *</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -115,7 +115,7 @@ export default function EventForm() {
                           {field.value ? (
                             format(new Date(field.value), 'PPP p')
                           ) : (
-                            <span>Pick a date and time</span>
+                            <span>Pilih tanggal dan waktu</span>
                           )}
                           <CalendarIcon className="ml-auto size-4 opacity-50" />
                         </Button>
@@ -135,7 +135,7 @@ export default function EventForm() {
                       />
                     </PopoverContent>
                   </Popover>
-                  <FormDescription>When will the event take place</FormDescription>
+                  <FormDescription>Kapan acara akan berlangsung</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -147,19 +147,19 @@ export default function EventForm() {
               name="location"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Location</FormLabel>
+                  <FormLabel>Lokasi</FormLabel>
                   <FormControl>
                     <div className="relative">
                       <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
                       <Input
-                        placeholder="Enter event location"
+                        placeholder="Masukkan lokasi acara"
                         className="pl-10"
                         disabled={isLoading}
                         {...field}
                       />
                     </div>
                   </FormControl>
-                  <FormDescription>Where the event will be held</FormDescription>
+                  <FormDescription>Dimana acara akan diadakan</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -171,17 +171,17 @@ export default function EventForm() {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>Deskripsi</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Enter event description"
+                      placeholder="Masukkan deskripsi acara"
                       className="resize-none"
                       rows={4}
                       disabled={isLoading}
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription>Additional details about the event</FormDescription>
+                  <FormDescription>Detail tambahan tentang acara</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -195,18 +195,18 @@ export default function EventForm() {
                 disabled={isLoading}
                 onClick={() => router.back()}
               >
-                Cancel
+                Batal
               </Button>
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 size-4 animate-spin" />
-                    Creating...
+                    Membuat...
                   </>
                 ) : (
                   <>
                     <Save className="mr-2 size-4" />
-                    Create Event
+                    Buat Acara
                   </>
                 )}
               </Button>
