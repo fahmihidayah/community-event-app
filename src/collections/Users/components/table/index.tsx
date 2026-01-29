@@ -24,15 +24,15 @@ export function UserTable({
   return (
     <div className="space-y-4">
       <DataTable
-        title="Users"
-        description="Manage system users"
+        title="Pengguna"
+        description="Kelola pengguna sistem"
         data={initialData}
         columns={userColumns}
         searchable={true}
-        searchPlaceholder="Search users by email..."
+        searchPlaceholder="Cari pengguna berdasarkan email..."
         searchValue={searchValue}
         onSearchChange={onSearchChange}
-        emptyMessage="No users found."
+        emptyMessage="Tidak ada pengguna ditemukan."
         manualPagination={true}
         totalPages={totalPages}
       />

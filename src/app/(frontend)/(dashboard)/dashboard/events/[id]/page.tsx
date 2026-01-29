@@ -46,8 +46,8 @@ export default async function DetailEventPage({
             </Button>
           </Link>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Event Details</h1>
-            <p className="text-muted-foreground mt-2">Error loading participants data</p>
+            <h1 className="text-3xl font-bold tracking-tight">Detail Acara</h1>
+            <p className="text-muted-foreground mt-2">Gagal memuat data peserta</p>
           </div>
         </div>
       </div>
@@ -64,8 +64,8 @@ export default async function DetailEventPage({
           </Button>
         </Link>
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Event Details</h1>
-          <p className="text-muted-foreground mt-2">View event information and participants</p>
+          <h1 className="text-3xl font-bold tracking-tight">Detail Acara</h1>
+          <p className="text-muted-foreground mt-2">Lihat informasi acara dan peserta</p>
         </div>
       </div>
 
@@ -76,7 +76,7 @@ export default async function DetailEventPage({
       <ImportCsv eventId={id} />
 
       {/* Participants Table */}
-      <Suspense fallback={<div>Loading participants...</div>}>
+      <Suspense fallback={<div>Memuat peserta...</div>}>
         <ParticipantTableWrapper
           initialData={participantsResult.data.docs as any}
           totalPages={participantsResult.data.totalPages}

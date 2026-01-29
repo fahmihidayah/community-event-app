@@ -45,12 +45,23 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setLoading(true)
     setError(null)
 
+    // Public routes that don't require authentication
+    const publicRoutes = ['/', '/login', '/register', '/forgot-password', '/change-password']
+    const isPublicRoute = publicRoutes.some((route) => path === route || path.startsWith(route + '/'))
+
+    // Protected routes that require authentication
+    const protectedRoutes = ['/dashboard']
+    const isProtectedRoute = protectedRoutes.some((route) => path.startsWith(route))
+
     try {
       const result = await getMeUser()
       console.log('[AUTH PROVIDER] Session result:', {
         hasToken: !!result.token,
         hasUser: !!result.user,
         userId: result.user?.id,
+        path,
+        isPublicRoute,
+        isProtectedRoute,
       })
 
       if (result.user) {
@@ -58,23 +69,29 @@ export function AuthProvider({ children }: AuthProviderProps) {
         console.log('[AUTH PROVIDER] User set:', result.user.id)
       } else {
         setUser(null)
-        router.push(`/login?redirect=${encodeURIComponent(path)}`)
+        // Only redirect to login if accessing protected route without user
+        if (isProtectedRoute && !isPublicRoute) {
+          router.push(`/login?redirect=${encodeURIComponent(path)}`)
+        }
         console.log('[AUTH PROVIDER] No user found')
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to fetch session'
       console.error('[AUTH PROVIDER] Error fetching session:', err)
-      router.push(`/login?redirect=${encodeURIComponent(path)}`)
+      // Only redirect to login if accessing protected route without user
+      if (isProtectedRoute && !isPublicRoute) {
+        router.push(`/login?redirect=${encodeURIComponent(path)}`)
+      }
       setError(errorMessage)
       setUser(null)
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [path, router])
 
   useEffect(() => {
     fetchSession()
-  }, [fetchSession]) // Only fetch once on mount
+  }, [fetchSession])
 
   const value: AuthContextType = useMemo(
     () => ({

@@ -20,12 +20,12 @@ export function UpcomingEvents({ events }: UpcomingEventsProps) {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Upcoming Events</CardTitle>
-          <CardDescription>No upcoming events scheduled</CardDescription>
+          <CardTitle>Acara Mendatang</CardTitle>
+          <CardDescription>Tidak ada acara mendatang yang dijadwalkan</CardDescription>
         </CardHeader>
         <CardContent>
           <p className="text-sm text-muted-foreground">
-            Create your first event to see it here
+            Buat acara pertama Anda untuk melihatnya di sini
           </p>
         </CardContent>
       </Card>
@@ -37,12 +37,12 @@ export function UpcomingEvents({ events }: UpcomingEventsProps) {
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle>Upcoming Events</CardTitle>
-            <CardDescription>Next events on your calendar</CardDescription>
+            <CardTitle>Acara Mendatang</CardTitle>
+            <CardDescription>Acara selanjutnya di kalender Anda</CardDescription>
           </div>
           <Link href="/dashboard/events">
             <Button variant="outline" size="sm">
-              View All
+              Lihat Semua
             </Button>
           </Link>
         </div>

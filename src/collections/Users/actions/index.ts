@@ -2,6 +2,7 @@
 
 import { User } from '@/payload-types'
 import { LoginFormSchema } from '../types/login-form-schema'
+import { RegisterFormSchema } from '../types/register-form-schema'
 import { getPayload } from 'payload'
 import config from '@/payload.config'
 import { cookies } from 'next/headers'
@@ -125,6 +126,85 @@ export const forgotPassword = async (
     return {
       success: false,
       message: error instanceof Error ? error.message : 'Failed to send reset email',
+    }
+  }
+}
+
+/**
+ * Registers a new User with email and password
+ * Auto-logs in the user after successful registration
+ * Sets payload-token cookie and returns User data
+ */
+export const register = async (
+  form: RegisterFormSchema,
+): Promise<{ success: boolean; user?: User; token?: string; error?: string }> => {
+  console.log('[REGISTER] Starting registration process for:', form.email)
+
+  try {
+    const payload = await getPayload({ config })
+    console.log('[REGISTER] Payload instance obtained')
+
+    // Check if user already exists
+    const existingUser = await payload.find({
+      collection: 'users',
+      where: {
+        email: {
+          equals: form.email,
+        },
+      },
+    })
+
+    if (existingUser.docs.length > 0) {
+      console.log('[REGISTER] Registration failed: email already exists')
+      return {
+        success: false,
+        error: 'Email sudah terdaftar',
+      }
+    }
+
+    // Create new user
+    const newUser = await payload.create({
+      collection: 'users',
+      data: {
+        email: form.email,
+        password: form.password,
+      },
+    })
+
+    console.log('[REGISTER] User created successfully:', newUser.id)
+
+    // Auto-login after registration
+    const loginResult = await login({
+      email: form.email,
+      password: form.password,
+    })
+
+    if (!loginResult.success) {
+      console.log('[REGISTER] Auto-login failed after registration')
+      return {
+        success: false,
+        error: 'Registrasi berhasil, tetapi login otomatis gagal',
+      }
+    }
+
+    console.log('[REGISTER] Registration and auto-login successful')
+
+    return {
+      success: true,
+      user: loginResult.user,
+      token: loginResult.token,
+    }
+  } catch (error) {
+    console.error('[REGISTER] Registration error:', error)
+    console.error('[REGISTER] Error details:', {
+      message: error instanceof Error ? error.message : 'Unknown error',
+      name: error instanceof Error ? error.name : 'Unknown',
+      stack: error instanceof Error ? error.stack : 'No stack trace',
+    })
+
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Registrasi gagal',
     }
   }
 }

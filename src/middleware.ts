@@ -15,7 +15,7 @@ export async function middleware(request: NextRequest) {
   const isProtectedRoute = protectedRoutes.some((route) => pathname.startsWith(route))
 
   // Auth routes that should redirect if already authenticated
-  const authRoutes = ['/login', '/forgot-password']
+  const authRoutes = ['/login', '/forgot-password', '/register']
   const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route))
 
   const decodedToken = await getUserFromToken(token?.value || '')
@@ -24,11 +24,7 @@ export async function middleware(request: NextRequest) {
 
   // Redirect to login if accessing protected route without valid token (missing or expired)
   if (isProtectedRoute && !decodedToken) {
-    const loginUrl = new URL('/login', request.url)
-    // Include both pathname and search params in redirect
-    const fullPath = pathname + request.nextUrl.search
-    loginUrl.searchParams.set('redirect', fullPath)
-    return NextResponse.redirect(loginUrl)
+    return NextResponse.redirect(new URL('/login', request.url))
   }
 
   // Redirect to dashboard if accessing auth routes with valid token

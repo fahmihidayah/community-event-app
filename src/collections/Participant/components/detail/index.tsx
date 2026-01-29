@@ -15,11 +15,11 @@ interface ParticipantDetailProps {
 const getStatusBadge = (status: string) => {
   switch (status) {
     case 'present':
-      return <Badge className="bg-green-500 hover:bg-green-600">Present</Badge>
+      return <Badge className="bg-green-500 hover:bg-green-600">Hadir</Badge>
     case 'absent':
-      return <Badge variant="destructive">Absent</Badge>
+      return <Badge variant="destructive">Tidak Hadir</Badge>
     case 'excused':
-      return <Badge variant="secondary">Excused</Badge>
+      return <Badge variant="secondary">Izin</Badge>
     default:
       return <Badge variant="outline">{status}</Badge>
   }
@@ -33,8 +33,8 @@ export default function ParticipantDetail({ participant }: ParticipantDetailProp
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Participant Details</h1>
-        <p className="text-muted-foreground mt-2">View participant information</p>
+        <h1 className="text-3xl font-bold tracking-tight">Detail Peserta</h1>
+        <p className="text-muted-foreground mt-2">Lihat informasi peserta</p>
       </div>
 
       {/* Main Info Card */}
@@ -44,7 +44,7 @@ export default function ParticipantDetail({ participant }: ParticipantDetailProp
             <div>
               <CardTitle className="text-2xl">{participant.fullName}</CardTitle>
               <CardDescription className="text-base mt-1">
-                Event: {eventName}
+                Acara: {eventName}
               </CardDescription>
             </div>
             {getStatusBadge(participant.attendanceStatus)}
@@ -54,7 +54,7 @@ export default function ParticipantDetail({ participant }: ParticipantDetailProp
           {/* Contact Information */}
           <div>
             <h3 className="text-sm font-semibold text-muted-foreground mb-3">
-              Contact Information
+              Informasi Kontak
             </h3>
             <div className="grid gap-4 md:grid-cols-2">
               <div className="flex items-center gap-3">
@@ -69,7 +69,7 @@ export default function ParticipantDetail({ participant }: ParticipantDetailProp
                 <div className="flex items-center gap-3">
                   <Phone className="size-5 text-muted-foreground" />
                   <div>
-                    <p className="text-sm text-muted-foreground">Phone</p>
+                    <p className="text-sm text-muted-foreground">Telepon</p>
                     <p className="font-medium">{participant.phoneNumber}</p>
                   </div>
                 </div>
@@ -80,15 +80,15 @@ export default function ParticipantDetail({ participant }: ParticipantDetailProp
           {/* Personal Information */}
           <div>
             <h3 className="text-sm font-semibold text-muted-foreground mb-3">
-              Personal Information
+              Informasi Pribadi
             </h3>
             <div className="grid gap-4 md:grid-cols-2">
               {participant.age && (
                 <div className="flex items-center gap-3">
                   <User className="size-5 text-muted-foreground" />
                   <div>
-                    <p className="text-sm text-muted-foreground">Age</p>
-                    <p className="font-medium">{participant.age} years old</p>
+                    <p className="text-sm text-muted-foreground">Usia</p>
+                    <p className="font-medium">{participant.age} tahun</p>
                   </div>
                 </div>
               )}
@@ -97,7 +97,7 @@ export default function ParticipantDetail({ participant }: ParticipantDetailProp
                 <div className="flex items-center gap-3">
                   <Briefcase className="size-5 text-muted-foreground" />
                   <div>
-                    <p className="text-sm text-muted-foreground">Job</p>
+                    <p className="text-sm text-muted-foreground">Pekerjaan</p>
                     <p className="font-medium">{participant.job}</p>
                   </div>
                 </div>
@@ -107,7 +107,7 @@ export default function ParticipantDetail({ participant }: ParticipantDetailProp
                 <div className="flex items-center gap-3 md:col-span-2">
                   <MapPin className="size-5 text-muted-foreground" />
                   <div>
-                    <p className="text-sm text-muted-foreground">Address</p>
+                    <p className="text-sm text-muted-foreground">Alamat</p>
                     <p className="font-medium">{participant.address}</p>
                   </div>
                 </div>
@@ -118,13 +118,13 @@ export default function ParticipantDetail({ participant }: ParticipantDetailProp
           {/* Attendance Information */}
           <div>
             <h3 className="text-sm font-semibold text-muted-foreground mb-3">
-              Attendance Information
+              Informasi Kehadiran
             </h3>
             <div className="grid gap-4 md:grid-cols-2">
               <div className="flex items-center gap-3">
                 <Calendar className="size-5 text-muted-foreground" />
                 <div>
-                  <p className="text-sm text-muted-foreground">Registration Date</p>
+                  <p className="text-sm text-muted-foreground">Tanggal Pendaftaran</p>
                   <p className="font-medium">
                     {participant.registrationDate
                       ? format(new Date(participant.registrationDate), 'PPP')
@@ -137,7 +137,7 @@ export default function ParticipantDetail({ participant }: ParticipantDetailProp
                 <div className="flex items-center gap-3">
                   <CalendarCheck className="size-5 text-green-600" />
                   <div>
-                    <p className="text-sm text-muted-foreground">Attendance Date</p>
+                    <p className="text-sm text-muted-foreground">Tanggal Kehadiran</p>
                     <p className="font-medium">
                       {format(new Date(participant.attendanceDate), 'PPP p')}
                     </p>
@@ -151,7 +151,7 @@ export default function ParticipantDetail({ participant }: ParticipantDetailProp
           <div className="flex gap-4 pt-4">
             <Link href={`/dashboard/events/${eventId}`} className="flex-1">
               <Button variant="outline" className="w-full">
-                Back to Event
+                Kembali ke Acara
               </Button>
             </Link>
             {participant.attendanceStatus !== 'present' && (
@@ -159,7 +159,7 @@ export default function ParticipantDetail({ participant }: ParticipantDetailProp
                 href={`/dashboard/participants/${participant.id}?status=confirm`}
                 className="flex-1"
               >
-                <Button className="w-full">Confirm Attendance</Button>
+                <Button className="w-full">Konfirmasi Kehadiran</Button>
               </Link>
             )}
           </div>

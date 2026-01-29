@@ -27,7 +27,7 @@ export const userColumns: ColumnDef<User>[] = [
   },
   {
     accessorKey: 'createdAt',
-    header: 'Created At',
+    header: 'Dibuat Pada',
     cell: ({ row }) => {
       const date = row.getValue('createdAt') as string
       return (
@@ -40,7 +40,7 @@ export const userColumns: ColumnDef<User>[] = [
   },
   {
     accessorKey: 'updatedAt',
-    header: 'Last Updated',
+    header: 'Terakhir Diperbarui',
     cell: ({ row }) => {
       const date = row.getValue('updatedAt') as string
       return (
@@ -54,7 +54,7 @@ export const userColumns: ColumnDef<User>[] = [
     id: 'status',
     header: 'Status',
     cell: () => {
-      return <Badge className="bg-green-500 hover:bg-green-600">Active</Badge>
+      return <Badge className="bg-green-500 hover:bg-green-600">Aktif</Badge>
     },
   },
 ]

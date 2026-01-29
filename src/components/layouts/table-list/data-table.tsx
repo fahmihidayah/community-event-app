@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   flexRender,
   getCoreRowModel,
@@ -50,6 +50,23 @@ export function DataTable<TData>({
 }: DataTableProps<TData>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [localSearchValue, setLocalSearchValue] = useState(searchValue)
+
+  // Debounce search input
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (onSearchChange && localSearchValue !== searchValue) {
+        onSearchChange(localSearchValue)
+      }
+    }, 500) // 500ms debounce delay
+
+    return () => clearTimeout(timer)
+  }, [localSearchValue, onSearchChange, searchValue])
+
+  // Sync with external search value changes
+  useEffect(() => {
+    setLocalSearchValue(searchValue)
+  }, [searchValue])
 
   const table = useReactTable({
     data,
@@ -81,8 +98,8 @@ export function DataTable<TData>({
               <Search className="absolute left-2.5 top-2.5 size-4 text-muted-foreground" />
               <Input
                 placeholder={searchPlaceholder}
-                value={searchValue}
-                onChange={(e) => onSearchChange?.(e.target.value)}
+                value={localSearchValue}
+                onChange={(e) => setLocalSearchValue(e.target.value)}
                 className="pl-8"
               />
             </div>

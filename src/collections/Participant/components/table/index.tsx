@@ -24,15 +24,15 @@ export function ParticipantTable({
   return (
     <div className="space-y-4">
       <DataTable
-        title="Participants"
-        description="List of event participants"
+        title="Peserta"
+        description="Daftar peserta acara"
         data={initialData}
         columns={participantColumns}
         searchable={true}
-        searchPlaceholder="Search participants by name, email, or phone..."
+        searchPlaceholder="Cari peserta berdasarkan nama, email, atau telepon..."
         searchValue={searchValue}
         onSearchChange={onSearchChange}
-        emptyMessage="No participants found."
+        emptyMessage="Tidak ada peserta ditemukan."
         manualPagination={true}
         totalPages={totalPages}
       />

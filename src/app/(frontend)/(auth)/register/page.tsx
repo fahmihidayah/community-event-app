@@ -1,15 +1,15 @@
-import LoginForm from '@/collections/Users/components/login/login-form'
+import { RegisterForm } from '@/collections/Users/components/register'
 import Link from 'next/link'
 
-export default function LoginPage() {
+export default function RegisterPage() {
   return (
     <div className="flex min-h-screen items-center justify-center">
       <div className="w-full max-w-md space-y-4">
-        <LoginForm />
+        <RegisterForm />
         <p className="text-center text-sm text-muted-foreground">
-          Belum punya akun?{' '}
-          <Link href="/register" className="text-primary hover:underline">
-            Daftar di sini
+          Sudah punya akun?{' '}
+          <Link href="/login" className="text-primary hover:underline">
+            Masuk di sini
           </Link>
         </p>
       </div>

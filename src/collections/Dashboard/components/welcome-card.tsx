@@ -17,14 +17,14 @@ export function WelcomeCard({ user }: WelcomeCardProps) {
             <UserCircle className="size-6 text-primary" />
           </div>
           <div>
-            <CardTitle className="text-2xl">Welcome back!</CardTitle>
+            <CardTitle className="text-2xl">Selamat datang kembali!</CardTitle>
             <CardDescription className="text-base">{user.email}</CardDescription>
           </div>
         </div>
       </CardHeader>
       <CardContent>
         <p className="text-muted-foreground">
-          Here's an overview of your dashboard statistics
+          Berikut adalah ringkasan statistik dashboard Anda
         </p>
       </CardContent>
     </Card>
