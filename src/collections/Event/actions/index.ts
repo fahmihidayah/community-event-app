@@ -107,3 +107,67 @@ export const createEvent = async (data: {
     }
   }
 }
+
+export const updateEvent = async (
+  id: string,
+  data: {
+    name: string
+    description?: string
+    date: string
+    location?: string
+  },
+) => {
+  try {
+    const payload = await getPayload({
+      config,
+    })
+
+    const event = await payload.update({
+      collection: 'event',
+      id,
+      data: {
+        name: data.name,
+        description: data.description,
+        date: data.date,
+        location: data.location,
+      },
+    })
+
+    return {
+      success: true,
+      event,
+      error: null,
+    }
+  } catch (error) {
+    console.error('Error updating event:', error)
+    return {
+      success: false,
+      event: null,
+      error: error instanceof Error ? error.message : 'Failed to update event',
+    }
+  }
+}
+
+export const deleteEvent = async (id: string) => {
+  try {
+    const payload = await getPayload({
+      config,
+    })
+
+    await payload.delete({
+      collection: 'event',
+      id,
+    })
+
+    return {
+      success: true,
+      error: null,
+    }
+  } catch (error) {
+    console.error('Error deleting event:', error)
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Failed to delete event',
+    }
+  }
+}

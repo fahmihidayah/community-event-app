@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import Link from 'next/link'
+import { DeleteEventDialog } from '../delete/delete-event-dialog'
 
 export type Event = {
   id: string
@@ -80,21 +81,22 @@ export const eventColumns: ColumnDef<Event>[] = [
             <DropdownMenuLabel>Aksi</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link href={`/dashboard/events/${event.id}`}>
+              <Link href={`/dashboard/events/${event.id}/edit`}>
                 <Pencil className="mr-2 size-4" />
                 Ubah
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem
-              className="text-destructive"
-              onClick={() => {
-                // This will be handled by the parent component
-                console.log('Delete event:', event.id)
-              }}
-            >
-              <Trash2 className="mr-2 size-4" />
-              Hapus
-            </DropdownMenuItem>
+            <DeleteEventDialog eventId={event.id} eventName={event.name}>
+              <DropdownMenuItem
+                className="text-destructive"
+                onSelect={(e) => {
+                  e.preventDefault()
+                }}
+              >
+                <Trash2 className="mr-2 size-4" />
+                Hapus
+              </DropdownMenuItem>
+            </DeleteEventDialog>
           </DropdownMenuContent>
         </DropdownMenu>
       )
