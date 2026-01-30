@@ -7,7 +7,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
   const currentUrl = new URL(req.url)
 
   // Example: generate QR for participant dashboard page instead of /qr
-  const targetUrl = `${currentUrl.origin}/dashboard/participant/${id}?status=confirm`
+  const targetUrl = `https://posku.up.railway.app/dashboard/participant/${id}?status=confirm`
 
   // Generate QR as PNG buffer
   const buffer = await QRCode.toBuffer(targetUrl)

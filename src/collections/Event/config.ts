@@ -1,4 +1,5 @@
 import { CollectionConfig } from 'payload'
+import { getAllParticipants } from './endpoints'
 
 export const Event: CollectionConfig = {
   slug: 'event',
@@ -6,6 +7,13 @@ export const Event: CollectionConfig = {
     useAsTitle: 'name',
     group: 'Content',
   },
+  endpoints: [
+    {
+      method: 'get',
+      path: '/:id/participants',
+      handler: getAllParticipants,
+    },
+  ],
   fields: [
     {
       name: 'id',

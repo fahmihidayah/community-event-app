@@ -30,6 +30,7 @@ export const uploadCsv = async (formData: FormData, eventId: string) => {
 
     const payload = await getPayload({ config })
     let imported = 0
+    let updated = 0
     let failed = 0
 
     // Process each row (skip header)
@@ -48,21 +49,57 @@ export const uploadCsv = async (formData: FormData, eventId: string) => {
       }
 
       try {
-        await payload.create({
+        // Check if participant with this email already exists for this event
+        const existingParticipants = await payload.find({
           collection: 'participant',
-          data: {
-            email,
-            fullName,
-            phoneNumber: columns[phoneIndex]?.trim() || '',
-            age: parseInt(columns[ageIndex]?.trim()) || undefined,
-            job: columns[jobIndex]?.trim() || '',
-            address: columns[addressIndex]?.trim() || '',
-            event: eventId,
-            attendanceStatus: 'absent',
-            registrationDate: new Date().toISOString(),
+          where: {
+            and: [
+              {
+                email: {
+                  equals: email,
+                },
+              },
+              {
+                event: {
+                  equals: eventId,
+                },
+              },
+            ],
           },
+          limit: 1,
         })
-        imported++
+
+        const participantData = {
+          email,
+          fullName,
+          phoneNumber: columns[phoneIndex]?.trim() || '',
+          age: parseInt(columns[ageIndex]?.trim()) || undefined,
+          job: columns[jobIndex]?.trim() || '',
+          address: columns[addressIndex]?.trim() || '',
+          event: eventId,
+          attendanceStatus: 'absent' as const,
+        }
+
+        if (existingParticipants.docs.length > 0) {
+          // Update existing participant
+          const existingParticipant = existingParticipants.docs[0]
+          await payload.update({
+            collection: 'participant',
+            id: existingParticipant.id,
+            data: participantData,
+          })
+          updated++
+        } else {
+          // Create new participant
+          await payload.create({
+            collection: 'participant',
+            data: {
+              ...participantData,
+              registrationDate: new Date().toISOString(),
+            },
+          })
+          imported++
+        }
       } catch (error) {
         console.error('Error importing participant:', error)
         failed++
@@ -71,8 +108,9 @@ export const uploadCsv = async (formData: FormData, eventId: string) => {
 
     return {
       success: true,
-      message: `Import completed: ${imported} imported, ${failed} failed`,
+      message: `Import selesai: ${imported} baru, ${updated} diperbarui, ${failed} gagal`,
       imported,
+      updated,
       failed,
     }
   } catch (error) {
