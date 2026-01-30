@@ -1,6 +1,10 @@
 import QRCode from 'qrcode'
 import { NextResponse } from 'next/server'
 
+import sharp from 'sharp'
+import fs from 'fs'
+import path from 'path'
+
 export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   // Current request URL (e.g. https://domain.com/participant/123/qr)
@@ -20,8 +24,43 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
       light: '#ffffff',
     },
   })
+
+   // 2️⃣ Load logo
+  const logoPath = path.join(process.cwd(), 'public/logo.jpg')
+  const logoBuffer = fs.readFileSync(logoPath)
+
+  // 3️⃣ Resize logo (25% of QR)
+  const logoSize = 256
+
+
+  const resizedLogo = await sharp(logoBuffer)
+    .resize(logoSize, logoSize)
+    .png()
+    .toBuffer()
+  const logoWithBg = await sharp({
+    create: {
+      width: logoSize + 40,
+      height: logoSize + 40,
+      channels: 4,
+      background: '#ffffff',
+    },
+  })
+  .composite([{ input: resizedLogo, left: 20, top: 20 }])
+    .png()
+    .toBuffer()
+
+    const finalQr = await sharp(buffer)
+    .composite([
+      {
+        input: logoWithBg,
+        gravity: 'center',
+      },
+    ])
+    .png()
+    .toBuffer()
+
   // @ts-ignore
-  return new NextResponse(buffer, {
+  return new NextResponse(finalQr, {
     headers: {
       'Content-Type': 'image/png',
       'Cache-Control': 'public, max-age=3600',
