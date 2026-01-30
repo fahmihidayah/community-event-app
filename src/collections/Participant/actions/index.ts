@@ -200,6 +200,136 @@ export const getParticipantById = async (participantId: string) => {
   }
 }
 
+export const uploadRoomCsv = async (formData: FormData, eventId: string) => {
+  try {
+    const file = formData.get('file') as File
+    if (!file) {
+      return {
+        success: false,
+        message: 'No file provided',
+        updated: 0,
+        skipped: 0,
+        failed: 0,
+      }
+    }
+
+    // Read CSV file
+    const text = await file.text()
+    const lines = text.split('\n')
+
+    // Find the header row (skip empty rows and non-header rows)
+    let headerRowIndex = -1
+    let headers: string[] = []
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim()
+      if (line.includes('Lantai') && line.includes('Nama')) {
+        headers = line.split(',')
+        headerRowIndex = i
+        break
+      }
+    }
+
+    if (headerRowIndex === -1) {
+      return {
+        success: false,
+        message: 'Header tidak ditemukan. Pastikan CSV memiliki kolom: Lantai, Nomor Kamar, Kelompok, Nama',
+        updated: 0,
+        skipped: 0,
+        failed: 0,
+      }
+    }
+
+    // Find column indexes
+    const floorIndex = headers.findIndex((h) => h.includes('Lantai'))
+    const roomIndex = headers.findIndex((h) => h.includes('Nomor Kamar'))
+    const groupIndex = headers.findIndex((h) => h.includes('Kelompok'))
+    const nameIndex = headers.findIndex((h) => h.includes('Nama'))
+
+    const payload = await getPayload({ config })
+    let updated = 0
+    let skipped = 0
+    let failed = 0
+
+    // Process each row (skip header and rows before it)
+    for (let i = headerRowIndex + 1; i < lines.length; i++) {
+      const line = lines[i].trim()
+      if (!line) continue
+
+      const columns = line.split(',')
+
+      const floor = columns[floorIndex]?.trim()
+      const room = columns[roomIndex]?.trim()
+      const participantGroup = columns[groupIndex]?.trim()
+      const name = columns[nameIndex]?.trim()
+
+      if (!name) {
+        skipped++
+        continue
+      }
+
+      try {
+        // Find participant by name and event
+        const existingParticipants = await payload.find({
+          collection: 'participant',
+          where: {
+            and: [
+              {
+                fullName: {
+                  equals: name,
+                },
+              },
+              {
+                event: {
+                  equals: eventId,
+                },
+              },
+            ],
+          },
+          limit: 1,
+        })
+
+        if (existingParticipants.docs.length > 0) {
+          // Update existing participant with room data
+          const existingParticipant = existingParticipants.docs[0]
+          await payload.update({
+            collection: 'participant',
+            id: existingParticipant.id,
+            data: {
+              floor: floor || '',
+              room: room || '',
+              participantGroup: participantGroup || '',
+            },
+          })
+          updated++
+        } else {
+          // Participant not found, skip
+          skipped++
+        }
+      } catch (error) {
+        console.error('Error updating participant:', error)
+        failed++
+      }
+    }
+
+    return {
+      success: true,
+      message: `Import ruangan selesai: ${updated} diperbarui, ${skipped} dilewati, ${failed} gagal`,
+      updated,
+      skipped,
+      failed,
+    }
+  } catch (error) {
+    console.error('Error uploading room CSV:', error)
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : 'Failed to upload room CSV',
+      updated: 0,
+      skipped: 0,
+      failed: 0,
+    }
+  }
+}
+
 export const getListParticipantsByEvent = async (
   eventId: string,
   options?: {

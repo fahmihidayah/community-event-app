@@ -5,6 +5,7 @@ export const Participant: CollectionConfig = {
   admin: {
     useAsTitle: 'fullName',
     group: 'Content',
+    defaultColumns: ['fullName', 'email', 'address', 'floor', 'room'],
   },
   fields: [
     {
@@ -89,6 +90,21 @@ export const Participant: CollectionConfig = {
           pickerAppearance: 'dayAndTime',
         },
       },
+    },
+    {
+      name: 'floor',
+      type: 'text',
+      defaultValue: '',
+    },
+    {
+      name: 'participantGroup',
+      type: 'text',
+      defaultValue: '',
+    },
+    {
+      name: 'room',
+      type: 'text',
+      defaultValue: '',
     },
   ],
 }

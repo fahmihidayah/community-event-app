@@ -258,6 +258,9 @@ export interface Participant {
   attendanceStatus: 'present' | 'absent' | 'excused';
   attendanceDate?: string | null;
   registrationDate?: string | null;
+  floor?: string | null;
+  participantGroup?: string | null;
+  room?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -453,6 +456,9 @@ export interface ParticipantSelect<T extends boolean = true> {
   attendanceStatus?: T;
   attendanceDate?: T;
   registrationDate?: T;
+  floor?: T;
+  participantGroup?: T;
+  room?: T;
   updatedAt?: T;
   createdAt?: T;
 }

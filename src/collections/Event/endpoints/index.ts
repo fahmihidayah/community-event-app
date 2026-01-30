@@ -34,6 +34,9 @@ export const getAllParticipants = async (req: PayloadRequest): Promise<Response>
     const formattedParticipants = participants.docs.map((participant: any) => ({
       fullName: participant.fullName,
       phoneNumber: participant.phoneNumber,
+      room: participant.room,
+      floor: participant.floor,
+      group: participant.participantGroup,
       qrCode: `${baseUrl}/participant/${participant.id}/qr`,
     }))
 
