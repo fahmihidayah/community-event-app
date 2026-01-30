@@ -24,7 +24,11 @@ export async function middleware(request: NextRequest) {
 
   // Redirect to login if accessing protected route without valid token (missing or expired)
   if (isProtectedRoute && !decodedToken) {
-    return NextResponse.redirect(new URL('/login', request.url))
+    const loginUrl = new URL('/login', request.url)
+    loginUrl.searchParams.set('redirect', pathname)
+    loginUrl.searchParams.set("status", "confirm")
+    loginUrl.searchParams.set('showWarning', 'true')
+    return NextResponse.redirect(loginUrl)
   }
 
   // Redirect to dashboard if accessing auth routes with valid token

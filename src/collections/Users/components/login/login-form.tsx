@@ -16,7 +16,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Mail, Lock, Eye, EyeOff, LogIn, Loader2 } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { toast } from 'sonner'
 import { loginFormSchema, LoginFormSchema } from '../../types/login-form-schema'
 import { login } from '../../actions'
@@ -25,6 +25,9 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const redirectUrl = searchParams.get('redirect') || '/dashboard'
+
   // 1. Inisialisasi form
   const form = useForm<LoginFormSchema>({
     resolver: zodResolver(loginFormSchema),
@@ -51,7 +54,11 @@ export default function LoginForm() {
       if (result.success && result.user && result.token) {
         console.log('[LOGIN FORM] Login successful, redirecting to dashboard')
         toast.success('Login berhasil! Mengalihkan ke dashboard...')
-        window.location.href = '/dashboard'
+
+        const safeRedirect = redirectUrl.startsWith('/') ? redirectUrl : '/dashboard'
+        const url = new URL(safeRedirect, window.location.origin)
+        url.searchParams.set('status', 'confirm')
+        window.location.href = url.toString()
       } else {
         console.log('[LOGIN FORM] Login failed:', result.error)
         toast.error(result.error || 'Gagal login. Periksa kembali email dan password Anda.')
@@ -65,7 +72,7 @@ export default function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-muted/30 to-background p-4">
+    <div className=" flex items-center justify-center bg-gradient-to-br from-background via-muted/30 to-background p-4">
       <Card className="w-full max-w-md border-border/50 shadow-lg">
         <CardHeader className="space-y-1 text-center">
           <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
