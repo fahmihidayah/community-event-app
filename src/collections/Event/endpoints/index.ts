@@ -18,9 +18,18 @@ export const getAllParticipants = async (req: PayloadRequest): Promise<Response>
     const participants = await req.payload.find({
       collection: 'participant',
       where: {
-        event: {
-          equals: eventId,
-        },
+        and: [
+          {
+            event: {
+              equals: eventId,
+            },
+          },
+          {
+            willBePresent: {
+              equals: true,
+            },
+          },
+        ],
       },
       limit: 1000, // Adjust as needed
     })

@@ -252,6 +252,7 @@ export interface Participant {
   email: string;
   job?: string | null;
   event: string | Event;
+  willBePresent?: boolean | null;
   /**
    * Status kehadiran peserta untuk event ini.
    */
@@ -453,6 +454,7 @@ export interface ParticipantSelect<T extends boolean = true> {
   email?: T;
   job?: T;
   event?: T;
+  willBePresent?: T;
   attendanceStatus?: T;
   attendanceDate?: T;
   registrationDate?: T;

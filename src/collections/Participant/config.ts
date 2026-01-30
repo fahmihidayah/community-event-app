@@ -1,11 +1,12 @@
 import { CollectionConfig } from 'payload'
+import { boolean } from 'zod'
 
 export const Participant: CollectionConfig = {
   slug: 'participant',
   admin: {
     useAsTitle: 'fullName',
     group: 'Content',
-    defaultColumns: ['fullName', 'email', 'attendanceStatus', 'floor', 'room'],
+    defaultColumns: ['fullName', 'email', 'willBePresent', 'floor', 'room'],
   },
   fields: [
     {
@@ -48,6 +49,11 @@ export const Participant: CollectionConfig = {
       type: 'relationship',
       relationTo: 'event',
       required: true,
+    },
+    {
+      name: 'willBePresent',
+      type: 'checkbox',
+      defaultValue: false,
     },
     {
       name: 'attendanceStatus',

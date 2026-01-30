@@ -27,6 +27,7 @@ export const uploadCsv = async (formData: FormData, eventId: string) => {
     const ageIndex = headers.findIndex((h) => h.includes('Usia'))
     const jobIndex = headers.findIndex((h) => h.includes('Pekerjaan atau Usaha'))
     const addressIndex = headers.findIndex((h) => h.includes('Alamat Rumah'))
+    const absenceReasonIndex = headers.findIndex((h) => h.includes('Hadir di Mabit Qowwamah 2026'))
 
     const payload = await getPayload({ config })
     let imported = 0
@@ -69,6 +70,9 @@ export const uploadCsv = async (formData: FormData, eventId: string) => {
           limit: 1,
         })
 
+        // Get absence reason value
+        const absenceReason = columns[absenceReasonIndex]?.trim() || ''
+
         const participantData = {
           email,
           fullName,
@@ -78,7 +82,15 @@ export const uploadCsv = async (formData: FormData, eventId: string) => {
           address: columns[addressIndex]?.trim() || '',
           event: eventId,
           attendanceStatus: 'absent' as const,
+          // If absence reason is empty, they will be present
+          willBePresent: absenceReason.includes('Insya Allah'),
         }
+
+        console.log(
+          'data participants : ',
+          JSON.stringify(participantData),
+          columns[absenceReasonIndex]?.trim(),
+        )
 
         if (existingParticipants.docs.length > 0) {
           // Update existing participant
@@ -86,7 +98,9 @@ export const uploadCsv = async (formData: FormData, eventId: string) => {
           await payload.update({
             collection: 'participant',
             id: existingParticipant.id,
-            data: participantData,
+            data: {
+              ...participantData,
+            },
           })
           updated++
         } else {
@@ -232,7 +246,8 @@ export const uploadRoomCsv = async (formData: FormData, eventId: string) => {
     if (headerRowIndex === -1) {
       return {
         success: false,
-        message: 'Header tidak ditemukan. Pastikan CSV memiliki kolom: Lantai, Nomor Kamar, Kelompok, Nama',
+        message:
+          'Header tidak ditemukan. Pastikan CSV memiliki kolom: Lantai, Nomor Kamar, Kelompok, Nama',
         updated: 0,
         skipped: 0,
         failed: 0,
@@ -295,6 +310,7 @@ export const uploadRoomCsv = async (formData: FormData, eventId: string) => {
             collection: 'participant',
             id: existingParticipant.id,
             data: {
+              willBePresent: true,
               floor: floor || '',
               room: room || '',
               participantGroup: participantGroup || '',
