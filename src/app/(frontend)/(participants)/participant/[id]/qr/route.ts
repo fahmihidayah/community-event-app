@@ -10,7 +10,16 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
   const targetUrl = `https://posku.kuttabalfatihmalang.com/dashboard/participants/${id}?status=confirm`
 
   // Generate QR as PNG buffer
-  const buffer = await QRCode.toBuffer(targetUrl)
+  const buffer = await QRCode.toBuffer(targetUrl, {
+    type: 'png',
+    width: 1024,                 // 👈 BIG size (try 512 / 1024 / 2048)
+    margin: 2,                   // white border
+    errorCorrectionLevel: 'H',   // 👈 highest error correction (best for print)
+    color: {
+      dark: '#000000',
+      light: '#ffffff',
+    },
+  })
   // @ts-ignore
   return new NextResponse(buffer, {
     headers: {
