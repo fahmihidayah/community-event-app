@@ -23,9 +23,7 @@ export default async function ParticipantPage({ params, searchParams }: Props) {
   if (status === 'confirm') {
     const result = await updateParticipantAttendanceStatusToPresent(id)
     if (result.success && result.participant) {
-      return (
-        <ConfirmationResult success={true} participantName={(result.participant as any).fullName} />
-      )
+      return <ConfirmationResult success={true} participant={result.participant} />
     }
     return <ConfirmationResult success={false} error={result.error || 'Participant not found'} />
   }

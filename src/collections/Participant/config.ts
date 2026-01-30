@@ -5,7 +5,7 @@ export const Participant: CollectionConfig = {
   admin: {
     useAsTitle: 'fullName',
     group: 'Content',
-    defaultColumns: ['fullName', 'email', 'address', 'floor', 'room'],
+    defaultColumns: ['fullName', 'email', 'attendanceStatus', 'floor', 'room'],
   },
   fields: [
     {

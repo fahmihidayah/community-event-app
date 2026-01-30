@@ -5,7 +5,20 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Participant } from '@/payload-types'
 import { format } from 'date-fns'
-import { User, Mail, Phone, MapPin, Briefcase, Calendar, CalendarCheck } from 'lucide-react'
+import {
+  User,
+  Mail,
+  Phone,
+  MapPin,
+  Briefcase,
+  Calendar,
+  CalendarCheck,
+  Home,
+  Users,
+  Square,
+  SquareActivity,
+  House,
+} from 'lucide-react'
 import Link from 'next/link'
 
 interface ParticipantDetailProps {
@@ -28,7 +41,7 @@ const getStatusBadge = (status: string) => {
 export default function ParticipantDetail({ participant }: ParticipantDetailProps) {
   const eventName = typeof participant.event === 'object' ? participant.event.name : 'Unknown Event'
   const eventId = typeof participant.event === 'object' ? participant.event.id : participant.event
-
+  const fallbackText = 'Belum ditentukan'
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -43,9 +56,7 @@ export default function ParticipantDetail({ participant }: ParticipantDetailProp
           <div className="flex items-start justify-between">
             <div>
               <CardTitle className="text-2xl">{participant.fullName}</CardTitle>
-              <CardDescription className="text-base mt-1">
-                Acara: {eventName}
-              </CardDescription>
+              <CardDescription className="text-base mt-1">Acara: {eventName}</CardDescription>
             </div>
             {getStatusBadge(participant.attendanceStatus)}
           </div>
@@ -53,9 +64,7 @@ export default function ParticipantDetail({ participant }: ParticipantDetailProp
         <CardContent className="space-y-6">
           {/* Contact Information */}
           <div>
-            <h3 className="text-sm font-semibold text-muted-foreground mb-3">
-              Informasi Kontak
-            </h3>
+            <h3 className="text-sm font-semibold text-muted-foreground mb-3">Informasi Kontak</h3>
             <div className="grid gap-4 md:grid-cols-2">
               <div className="flex items-center gap-3">
                 <Mail className="size-5 text-muted-foreground" />
@@ -79,9 +88,7 @@ export default function ParticipantDetail({ participant }: ParticipantDetailProp
 
           {/* Personal Information */}
           <div>
-            <h3 className="text-sm font-semibold text-muted-foreground mb-3">
-              Informasi Pribadi
-            </h3>
+            <h3 className="text-sm font-semibold text-muted-foreground mb-3">Informasi Pribadi</h3>
             <div className="grid gap-4 md:grid-cols-2">
               {participant.age && (
                 <div className="flex items-center gap-3">
@@ -120,7 +127,36 @@ export default function ParticipantDetail({ participant }: ParticipantDetailProp
             <h3 className="text-sm font-semibold text-muted-foreground mb-3">
               Informasi Kehadiran
             </h3>
-            <div className="grid gap-4 md:grid-cols-2">
+
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              {/* Kelompok */}
+              <div className="flex items-center gap-3">
+                <Users className="size-5 text-muted-foreground" />
+                <div>
+                  <p className="text-sm text-muted-foreground">Kelompok</p>
+                  <p className="font-medium">{participant.participantGroup || fallbackText}</p>
+                </div>
+              </div>
+
+              {/* Ruangan */}
+              <div className="flex items-center gap-3">
+                <House className="size-5 text-muted-foreground" />
+                <div>
+                  <p className="text-sm text-muted-foreground">Ruangan</p>
+                  <p className="font-medium">{participant.room || fallbackText}</p>
+                </div>
+              </div>
+
+              {/* Lantai */}
+              <div className="flex items-center gap-3">
+                <SquareActivity className="size-5 text-muted-foreground" />
+                <div>
+                  <p className="text-sm text-muted-foreground">Lantai</p>
+                  <p className="font-medium">{participant.floor || fallbackText}</p>
+                </div>
+              </div>
+
+              {/* Registration Date */}
               <div className="flex items-center gap-3">
                 <Calendar className="size-5 text-muted-foreground" />
                 <div>
@@ -128,11 +164,12 @@ export default function ParticipantDetail({ participant }: ParticipantDetailProp
                   <p className="font-medium">
                     {participant.registrationDate
                       ? format(new Date(participant.registrationDate), 'PPP')
-                      : '-'}
+                      : fallbackText}
                   </p>
                 </div>
               </div>
 
+              {/* Attendance Date */}
               {participant.attendanceDate && (
                 <div className="flex items-center gap-3">
                   <CalendarCheck className="size-5 text-green-600" />
