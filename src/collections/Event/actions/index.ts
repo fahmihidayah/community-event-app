@@ -171,3 +171,74 @@ export const deleteEvent = async (id: string) => {
     }
   }
 }
+
+export const addParticipantToEvent = async (eventId: string, data: {
+  fullName: string
+  email: string
+  phoneNumber?: string
+  age?: number
+  job?: string
+  address?: string
+}) => {
+  try {
+    const payload = await getPayload({
+      config,
+    })
+
+    // Check if participant with this email already exists for this event
+    const existingParticipants = await payload.find({
+      collection: 'participant',
+      where: {
+        and: [
+          {
+            email: {
+              equals: data.email,
+            },
+          },
+          {
+            event: {
+              equals: eventId,
+            },
+          },
+        ],
+      },
+      limit: 1,
+    })
+
+    if (existingParticipants.docs.length > 0) {
+      return {
+        success: false,
+        error: 'Peserta dengan email ini sudah terdaftar untuk acara ini',
+      }
+    }
+
+    const participant = await payload.create({
+      collection: 'participant',
+      data: {
+        fullName: data.fullName,
+        email: data.email,
+        phoneNumber: data.phoneNumber || '',
+        age: data.age,
+        job: data.job || '',
+        address: data.address || '',
+        event: eventId,
+        attendanceStatus: 'absent',
+        willBePresent: true,
+        registrationDate: new Date().toISOString(),
+      },
+    })
+
+    return {
+      success: true,
+      participant,
+      error: null,
+    }
+  } catch (error) {
+    console.error('Error adding participant:', error)
+    return {
+      success: false,
+      participant: null,
+      error: error instanceof Error ? error.message : 'Failed to add participant',
+    }
+  }
+}

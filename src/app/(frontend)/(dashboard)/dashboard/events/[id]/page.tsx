@@ -7,7 +7,7 @@ import { ParticipantTableWrapper } from '@/collections/Participant/components/ta
 import { ImportCsv } from '@/collections/Participant/components/import'
 import { ImportRoom } from '@/collections/Participant/components/import-room'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, UserPlus } from 'lucide-react'
 import Link from 'next/link'
 
 export default async function DetailEventPage({
@@ -58,16 +58,24 @@ export default async function DetailEventPage({
   return (
     <div className="space-y-6">
       {/* Back Button and Header */}
-      <div className="flex items-center gap-4">
-        <Link href="/dashboard/events">
-          <Button variant="outline" size="icon">
-            <ArrowLeft className="size-4" />
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <Link href="/dashboard/events">
+            <Button variant="outline" size="icon">
+              <ArrowLeft className="size-4" />
+            </Button>
+          </Link>
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">Detail Acara</h1>
+            <p className="text-muted-foreground mt-2">Lihat informasi acara dan peserta</p>
+          </div>
+        </div>
+        <Link href={`/dashboard/events/${id}/add`}>
+          <Button>
+            <UserPlus className="mr-2 size-4" />
+            Tambah Peserta
           </Button>
         </Link>
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Detail Acara</h1>
-          <p className="text-muted-foreground mt-2">Lihat informasi acara dan peserta</p>
-        </div>
       </div>
 
       {/* Event Summary */}
