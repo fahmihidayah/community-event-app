@@ -467,11 +467,13 @@ export const getAvailableRoom = async (eventId: string): Promise<string> => {
 
   // 🔹 Loop lantai terus sampai ketemu slot
   while (true) {
-    for (let room = 1; room <= MAX_ROOM_PER_FLOOR; room++) {
+    for (let room = 3; room <= MAX_ROOM_PER_FLOOR; room++) {
       const roomKey = `${floor}.${room}`
       const count = roomCount[roomKey] || 0
-
+      console.log('roomKey : ', roomKey)
+      console.log('count : ', count)
       if (count < MAX_PERSON_PER_ROOM) {
+        console.log('roomKey : ', roomKey)
         return roomKey // 🎯 kamar tersedia
       }
     }
