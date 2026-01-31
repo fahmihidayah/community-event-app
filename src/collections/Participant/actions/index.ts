@@ -441,3 +441,46 @@ export const getListParticipantsByEvent = async (
     }
   }
 }
+export const getAvailableRoom = async (eventId: string): Promise<string> => {
+  const payload = await getPayload({ config })
+
+  const participants = await payload.find({
+    collection: 'participant',
+
+    limit: 10000, // pastikan semua keambil
+  })
+
+  const MAX_ROOM_PER_FLOOR = 16
+  const MAX_PERSON_PER_ROOM = 5
+
+  // 🔹 Map untuk hitung isi kamar
+  const roomCount: Record<string, number> = {}
+
+  for (const p of participants.docs) {
+    if (!p.room) continue
+    roomCount[p.room] = (roomCount[p.room] || 0) + 1
+  }
+
+  console.log('data room : ', JSON.stringify(roomCount))
+
+  let floor = 3
+
+  // 🔹 Loop lantai terus sampai ketemu slot
+  while (true) {
+    for (let room = 1; room <= MAX_ROOM_PER_FLOOR; room++) {
+      const roomKey = `${floor}.${room}`
+      const count = roomCount[roomKey] || 0
+
+      if (count < MAX_PERSON_PER_ROOM) {
+        return roomKey // 🎯 kamar tersedia
+      }
+    }
+
+    floor++
+
+    // optional safety biar gak infinite
+    if (floor > 100) {
+      throw new Error('Semua kamar penuh')
+    }
+  }
+}

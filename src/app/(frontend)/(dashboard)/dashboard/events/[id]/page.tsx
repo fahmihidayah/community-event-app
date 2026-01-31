@@ -79,13 +79,13 @@ export default async function DetailEventPage({
       </div>
 
       {/* Event Summary */}
-      <EventSummary event={eventResult.event as any} stats={participantsResult.stats} />
+      {/* <EventSummary event={eventResult.event as any} stats={participantsResult.stats} /> */}
 
       {/* Import CSV - Grid 2 Columns */}
-      <div className="grid gap-6 md:grid-cols-2">
+      {/* <div className="grid gap-6 md:grid-cols-2">
         <ImportCsv eventId={id} />
         <ImportRoom eventId={id} />
-      </div>
+      </div> */}
 
       {/* Participants Table */}
       <Suspense fallback={<div>Memuat peserta...</div>}>

@@ -14,3 +14,10 @@ Semoga acara ini berjalan lancar dan memberikan manfaat.`
 export const urlEncode = (text: string) => {
   return encodeURIComponent(text)
 }
+
+export function sanitizePhoneNumber(phoneNumber?: string | null) {
+  if (!phoneNumber) return ''
+  if (phoneNumber.startsWith('62')) return '+62' + phoneNumber.slice(2)
+  if (phoneNumber.startsWith('0')) return '+62' + phoneNumber.slice(1)
+  return '+62' + phoneNumber
+}
