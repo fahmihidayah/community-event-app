@@ -37,23 +37,28 @@ A modern, full-stack web application built with **Payload CMS**, **Next.js 15**,
 ### Development Setup
 
 1. **Clone the repository**
+
    ```bash
    git clone <your-repo-url>
    cd payload-starter
    ```
 
 2. **Install dependencies**
+
    ```bash
    pnpm install
    ```
 
 3. **Environment Setup**
+
    ```bash
    cp .env.example .env
    ```
+
    Add your database connection string and other environment variables.
 
 4. **Start the development server**
+
    ```bash
    pnpm dev
    ```
@@ -133,6 +138,7 @@ pnpm test:e2e     # Run E2E tests
 For local development with Docker:
 
 1. **Update environment variables**
+
    ```bash
    # In .env file
    MONGODB_URI=mongodb://127.0.0.1/<dbname>
@@ -146,16 +152,19 @@ For local development with Docker:
 ## 📝 Customization
 
 ### Adding New Pages
+
 1. Create new files in `src/app/(frontend)/`
 2. Use existing components from `src/components/ui/`
 3. Follow the established patterns for styling
 
 ### Modifying Theme
+
 - Edit `src/app/(frontend)/styles.css` for global styles
 - Customize shadcn theme in `components.json`
 - Add new color variables as needed
 
 ### Extending Components
+
 - Add new UI components in `src/components/ui/`
 - Create layout components in `src/components/layouts/`
 - Follow shadcn/ui patterns for consistency
@@ -165,28 +174,33 @@ For local development with Docker:
 The Payload config is optimized for modern web applications with organized collections:
 
 ### Collection Architecture
+
 Collections are organized in dedicated directories for better maintainability:
+
 - Each collection has its own folder with a `config.ts` file
 - Admin grouping for logical organization in the dashboard
 - UUID-based IDs for all collections instead of auto-increment
 
 ### 👥 Users Collection (`/collections/Users/`)
+
 - **Group**: User Management
 - **Features**: Auth-enabled with admin panel access
 - **ID**: UUID-based for better security
 - **Fields**: Email (default), extensible for custom user fields
 
 ### 📝 Posts Collection (`/collections/Posts/`)
+
 - **Group**: Content
 - **Features**: Rich text content management with full blog functionality
 - **ID**: UUID-based
-- **Fields**: 
+- **Fields**:
   - Title, slug (auto-generated), rich text content
   - Excerpt, featured image, categories (relationship)
   - Published date, status (draft/published/archived)
   - Timestamps for created/updated tracking
 
 ### 🏷️ Categories Collection (`/collections/Categories/`)
+
 - **Group**: Content
 - **Features**: Hierarchical content organization
 - **ID**: UUID-based
@@ -197,12 +211,15 @@ Collections are organized in dedicated directories for better maintainability:
   - Timestamps for tracking
 
 ### 📁 Media Collection
+
 - **Features**: Upload-enabled collection with image optimization
 - Pre-configured sizes and focal point support
 - Automatic resizing and format conversion
 
 ### Admin Organization
+
 Collections are grouped in the admin panel:
+
 - **User Management**: Users
 - **Content**: Posts, Categories
 - **Media**: Media uploads
@@ -212,12 +229,15 @@ For more details, see the [Payload Collections documentation](https://payloadcms
 ## 🚀 Deployment
 
 ### Vercel (Recommended)
+
 1. Connect your repository to Vercel
 2. Set environment variables in Vercel dashboard
 3. Deploy automatically on push to main branch
 
 ### Other Platforms
+
 This Next.js application can be deployed on any platform that supports Node.js:
+
 - Netlify
 - Railway
 - DigitalOcean App Platform
@@ -226,16 +246,19 @@ This Next.js application can be deployed on any platform that supports Node.js:
 ## 🛠 Development Tips
 
 ### Code Quality
+
 - ESLint and Prettier are pre-configured
 - TypeScript strict mode enabled
 - Automatic code formatting on save
 
 ### Performance
+
 - Next.js 15 with React 19 for optimal performance
 - Image optimization with Next.js Image component
 - Lazy loading and code splitting built-in
 
 ### Accessibility
+
 - shadcn/ui components are built with accessibility in mind
 - ARIA labels and keyboard navigation included
 - Color contrast optimized for WCAG compliance
@@ -258,6 +281,8 @@ This project is licensed under the MIT License.
 ## 💬 Support
 
 If you have any issues or questions:
+
 - Create an issue on GitHub
 - Join the [Payload Discord](https://discord.com/invite/payload)
 - Check the [Payload documentation](https://payloadcms.com/docs)
+- asdf
