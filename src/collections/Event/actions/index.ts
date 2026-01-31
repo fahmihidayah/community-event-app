@@ -178,7 +178,10 @@ export const addParticipantToEvent = async (eventId: string, data: {
   phoneNumber?: string
   age?: number
   job?: string
-  address?: string
+  address?: string,
+  room?: string,
+  floor?: string,
+  participantGroup?: string,
 }) => {
   try {
     const payload = await getPayload({
@@ -222,9 +225,12 @@ export const addParticipantToEvent = async (eventId: string, data: {
         job: data.job || '',
         address: data.address || '',
         event: eventId,
-        attendanceStatus: 'absent',
+        attendanceStatus: 'present',
         willBePresent: true,
         registrationDate: new Date().toISOString(),
+        room: data.room,
+        floor: data.floor,
+        participantGroup: data.participantGroup,
       },
     })
 

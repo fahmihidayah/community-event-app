@@ -39,6 +39,9 @@ export default function AddParticipantForm({ eventId }: AddParticipantFormProps)
       age: '',
       job: '',
       address: '',
+      floor: '',
+      room: '',
+      participantGroup: '',
     },
   })
 

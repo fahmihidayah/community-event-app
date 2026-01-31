@@ -4,12 +4,19 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { CheckCircle, XCircle, UserCheck, SquareActivity, Users, House } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { Participant } from '@/payload-types'
+import { Event, Participant } from '@/payload-types'
 
 interface ConfirmationResultProps {
   success: boolean
   participant?: Participant
   error?: string
+}
+
+function sanitizePhoneNumber(phoneNumber?: string | null) {
+  if (!phoneNumber) return ''
+  if (phoneNumber.startsWith('62')) return "+62" + phoneNumber.slice(2)
+  if (phoneNumber.startsWith('0')) return "+62" + phoneNumber.slice(1)
+  return "+62" + phoneNumber
 }
 
 export function ConfirmationResult({ success, participant, error }: ConfirmationResultProps) {
@@ -68,6 +75,13 @@ export function ConfirmationResult({ success, participant, error }: Confirmation
               Status kehadiran peserta telah diperbarui menjadi <b>Hadir</b>.
             </p>
 
+            {participant.phoneNumber && (
+              <Link href={`https://api.whatsapp.com/send?phone=${sanitizePhoneNumber(participant.phoneNumber)}&text=Assalamu'alaykum, Ayah ${participant.fullName} kamarnya ada di lantai ${participant.floor} ruangan ${participant.room}`} target="_blank" className="block">
+                <Button className="w-full bg-green-500 hover:bg-green-600 text-white" variant="default">
+                  Kirim pesan WhatsApp
+                </Button>
+              </Link>
+            )}
             <Link href="/dashboard/events" className="block">
               <Button className="w-full" variant="default">
                 Kembali ke Acara
