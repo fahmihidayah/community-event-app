@@ -70,15 +70,17 @@ export default async function DetailEventPage({
             <p className="text-muted-foreground mt-2">Lihat informasi acara dan peserta</p>
           </div>
         </div>
-        <Link href={`/dashboard/events/${id}/report`}>
-          <Button>Lihat Report Event</Button>
-        </Link>
-        <Link href={`/dashboard/events/${id}/add`}>
-          <Button>
-            <UserPlus className="mr-2 size-4" />
-            Tambah Peserta
-          </Button>
-        </Link>
+        <div className="flex flex-col gap-3">
+          <Link href={`/dashboard/events/${id}/report`}>
+            <Button>Lihat Report Event</Button>
+          </Link>
+          <Link href={`/dashboard/events/${id}/add`}>
+            <Button>
+              <UserPlus className="mr-2 size-4" />
+              Tambah Peserta
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* Event Summary */}
