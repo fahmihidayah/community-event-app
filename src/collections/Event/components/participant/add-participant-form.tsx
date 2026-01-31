@@ -52,7 +52,7 @@ export default function AddParticipantForm({ eventId, availableRoom }: AddPartic
       job: '',
       address: '',
       floor: availableRoom.split('.')[0],
-      room: availableRoom.split('.')[1],
+      room: availableRoom,
       participantGroup: '',
     },
   })
