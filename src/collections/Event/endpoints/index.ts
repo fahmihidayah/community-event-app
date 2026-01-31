@@ -1,4 +1,32 @@
-import { PayloadRequest } from 'payload'
+import { getPayload, PayloadRequest } from 'payload'
+
+export const getParticipantCount = async (req: PayloadRequest): Promise<Response> => {
+  try {
+    const eventId = req.routeParams?.id
+    const present = await req.payload.count({
+      collection: 'participant',
+      where: {
+        and: [{ event: { equals: eventId } }, { attendanceStatus: { equals: 'present' } }],
+      },
+    })
+    const absent = await req.payload.count({
+      collection: 'participant',
+      where: {
+        and: [{ event: { equals: eventId } }, { attendanceStatus: { equals: 'absent' } }],
+      },
+    })
+
+    return Response.json({
+      present: present,
+      absent: absent,
+    })
+  } catch (error) {
+    return Response.json({
+      error: 'Failed to get participant count',
+      message: error instanceof Error ? error.message : 'Unknown error',
+    })
+  }
+}
 
 export const getAllParticipants = async (req: PayloadRequest): Promise<Response> => {
   try {
