@@ -37,7 +37,6 @@ export const Participant: CollectionConfig = {
     {
       name: 'email',
       type: 'email',
-      required: true,
     },
     {
       name: 'job',

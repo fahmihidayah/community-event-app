@@ -172,54 +172,57 @@ export const deleteEvent = async (id: string) => {
   }
 }
 
-export const addParticipantToEvent = async (eventId: string, data: {
-  fullName: string
-  email: string
-  phoneNumber?: string
-  age?: number
-  job?: string
-  address?: string,
-  room?: string,
-  floor?: string,
-  participantGroup?: string,
-}) => {
+export const addParticipantToEvent = async (
+  eventId: string,
+  data: {
+    fullName: string
+    email?: string
+    phoneNumber?: string
+    age?: number
+    job?: string
+    address?: string
+    room?: string
+    floor?: string
+    participantGroup?: string
+  },
+) => {
   try {
     const payload = await getPayload({
       config,
     })
 
-    // Check if participant with this email already exists for this event
-    const existingParticipants = await payload.find({
-      collection: 'participant',
-      where: {
-        and: [
-          {
-            email: {
-              equals: data.email,
-            },
-          },
-          {
-            event: {
-              equals: eventId,
-            },
-          },
-        ],
-      },
-      limit: 1,
-    })
+    // // Check if participant with this email already exists for this event
+    // const existingParticipants = await payload.find({
+    //   collection: 'participant',
+    //   where: {
+    //     and: [
+    //       {
+    //         email: {
+    //           equals: data.email,
+    //         },
+    //       },
+    //       {
+    //         event: {
+    //           equals: eventId,
+    //         },
+    //       },
+    //     ],
+    //   },
+    //   limit: 1,
+    // })
 
-    if (existingParticipants.docs.length > 0) {
-      return {
-        success: false,
-        error: 'Peserta dengan email ini sudah terdaftar untuk acara ini',
-      }
-    }
+    // if (existingParticipants.docs.length > 0) {
+    //   return {
+    //     success: false,
+    //     error: 'Peserta dengan email ini sudah terdaftar untuk acara ini',
+    //   }
+    // }
 
     const participant = await payload.create({
       collection: 'participant',
       data: {
         fullName: data.fullName,
-        email: data.email,
+        email: data.email ?? '',
         phoneNumber: data.phoneNumber || '',
         age: data.age,
         job: data.job || '',
