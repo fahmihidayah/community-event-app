@@ -251,3 +251,36 @@ export const addParticipantToEvent = async (
     }
   }
 }
+
+export const getParticipantCount = async (eventId: string) => {
+  try {
+    const payload = await getPayload({ config })
+    const present = await payload.count({
+      collection: 'participant',
+      where: {
+        and: [{ event: { equals: eventId } }, { attendanceStatus: { equals: 'present' } }],
+      },
+    })
+    const absent = await payload.count({
+      collection: 'participant',
+      where: {
+        and: [{ event: { equals: eventId } }, { attendanceStatus: { equals: 'absent' } }],
+      },
+    })
+
+    return {
+      success: true,
+      present: present.totalDocs,
+      absent: absent.totalDocs,
+      error: null,
+    }
+  } catch (error) {
+    console.error('Error getting participant count:', error)
+    return {
+      success: false,
+      present: 0,
+      absent: 0,
+      error: error instanceof Error ? error.message : 'Failed to get participant count',
+    }
+  }
+}
