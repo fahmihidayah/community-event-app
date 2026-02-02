@@ -4,7 +4,7 @@ import { SignOutDialog } from '@/components/layouts/dashboard/sign-out-dialog'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { useSession } from '@/providers/AuthProvider'
-import { Calendar, LayoutDashboard, Settings, Users } from 'lucide-react'
+import { Calendar, LayoutDashboard, Settings, Users, Shield } from 'lucide-react'
 import { logout } from '@/collections/Users/actions'
 import { toast } from 'sonner'
 
@@ -84,6 +84,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   title: 'Pengaturan',
                   icon: Settings,
                   url: '/dashboard/settings',
+                },
+              ],
+            },
+            {
+              label: 'Admin',
+              items: [
+                {
+                  title: 'Super Admin',
+                  icon: Shield,
+                  url: '/admin',
                 },
               ],
             },

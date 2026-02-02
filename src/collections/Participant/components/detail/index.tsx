@@ -20,6 +20,7 @@ import {
   House,
 } from 'lucide-react'
 import Link from 'next/link'
+import { generateWelcomeText, sanitizePhoneNumber } from '@/lib/url'
 
 interface ParticipantDetailProps {
   participant: Participant
@@ -185,7 +186,7 @@ export default function ParticipantDetail({ participant }: ParticipantDetailProp
           </div>
 
           {/* Actions */}
-          <div className="flex gap-4 pt-4">
+          <div className="flex flex-col gap-4 pt-4">
             <Link href={`/dashboard/events/${eventId}`} className="flex-1">
               <Button variant="outline" className="w-full">
                 Kembali ke Acara
@@ -197,6 +198,20 @@ export default function ParticipantDetail({ participant }: ParticipantDetailProp
                 className="flex-1"
               >
                 <Button className="w-full">Konfirmasi Kehadiran</Button>
+              </Link>
+            )}
+            {participant.phoneNumber && (
+              <Link
+                href={`https://api.whatsapp.com/send?phone=${sanitizePhoneNumber(participant.phoneNumber)}&text=${generateWelcomeText(participant)}`}
+                target="_blank"
+                className="block"
+              >
+                <Button
+                  className="w-full bg-green-500 hover:bg-green-600 text-white"
+                  variant="default"
+                >
+                  Kirim pesan WhatsApp
+                </Button>
               </Link>
             )}
           </div>

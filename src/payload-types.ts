@@ -247,7 +247,7 @@ export interface Participant {
   phoneNumber?: string | null;
   address?: string | null;
   age?: number | null;
-  email: string;
+  email?: string | null;
   job?: string | null;
   event: string | Event;
   willBePresent?: boolean | null;

@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 export const participantFormSchema = z.object({
   fullName: z.string().min(1, 'Nama lengkap wajib diisi'),
-  email: z.string().email('Email tidak valid').min(1, 'Email wajib diisi'),
+  email: z.string().optional(),
   phoneNumber: z.string().optional(),
   age: z.string().optional(),
   job: z.string().optional(),
