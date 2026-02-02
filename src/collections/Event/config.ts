@@ -20,7 +20,7 @@ export const Event: CollectionConfig = {
     },
     {
       method : 'get',
-      path : '/:id/participants/download',
+      path : '/:id/download',
       handler : downloadPresentParticipantCsv
     }
   ],

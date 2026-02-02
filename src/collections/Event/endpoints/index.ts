@@ -53,8 +53,8 @@ export const downloadPresentParticipantCsv = async (req: PayloadRequest): Promis
             },
           },
           {
-            attendanceDate: {
-              not_equals: "",
+            attendanceStatus : {
+              equals : "present"
             }
           }
         ],
@@ -82,7 +82,6 @@ export const downloadPresentParticipantCsv = async (req: PayloadRequest): Promis
       'Age',
       'Job',
       'Address',
-      'Attendance Date',
       'Room',
       'Floor',
       'Group',
@@ -98,7 +97,6 @@ export const downloadPresentParticipantCsv = async (req: PayloadRequest): Promis
       `"${p.age ?? ''}"`,
       `"${p.job ?? ''}"`,
       `"${p.address ?? ''}"`,
-      `"${p.attendanceDate ?? ''}`,
       `"${p.room ?? ''}"`,
       `"${p.floor ?? ''}"`,
       `"${p.participantGroup ?? ''}"`,
