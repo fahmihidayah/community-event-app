@@ -1,5 +1,5 @@
 import { CollectionConfig } from 'payload'
-import { getAllParticipants } from './endpoints'
+import { downloadPresentParticipantCsv, getAllParticipants } from './endpoints'
 
 export const Event: CollectionConfig = {
   slug: 'event',
@@ -12,6 +12,11 @@ export const Event: CollectionConfig = {
       method: 'get',
       path: '/:id/participants',
       handler: getAllParticipants,
+    },
+    {
+      method: 'get',
+      path: '/:id/participants/download',
+      handler: downloadPresentParticipantCsv,
     },
   ],
   fields: [
